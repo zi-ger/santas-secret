@@ -6,9 +6,9 @@
       <v-card-subtitle class="overline">Create, view and find <b>Secret Santa</b> matches.</v-card-subtitle>
       <v-divider></v-divider>
       <v-card-text>
-        <v-btn :to="{path: '/home'}" class="my-1" block small>My matches</v-btn>
+        <v-btn :to="{path: '/matches'}" class="my-1" block small>My matches</v-btn>
         <br>
-        <v-btn :to="{path: '/match'}" class="my-1" block small>New match</v-btn>
+        <v-btn :to="{path: '/new_match'}" class="my-1" block small>New match</v-btn>
         <br>
         <!-- <v-btn :to="{path: '/home'}" class="my-1" block small>Search</v-btn> -->
       </v-card-text>

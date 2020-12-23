@@ -6,7 +6,9 @@ import VueRouter from 'vue-router'
 import Login from '@/views/Login'
 import Home from '@/views/Home'
 import Profile from '@/views/Profile'
-import Match from '@/views/Match'
+
+import NewMatch from '@/views/NewMatch'
+import Matches from '@/views/Matches'
 
 Vue.use(VueRouter)
 
@@ -41,9 +43,17 @@ const routes = [
     }
   },
   {
-    path: '/match',
-    name: 'match',
-    component: Match,
+    path: '/new_match',
+    name: 'new_match',
+    component: NewMatch,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/matches',
+    name: 'matches',
+    component: Matches,
     meta: {
       requiresAuth: true
     }

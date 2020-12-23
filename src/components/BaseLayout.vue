@@ -15,8 +15,8 @@
         <v-divider vertical class="mx-7"></v-divider>
 
         <v-btn text :to="{path: '/profile'}">Profile</v-btn>
-        <v-btn text :to="{path: '/'}">My Matches</v-btn>
-        <v-btn text :to="{path: '/match'}">New Match</v-btn>
+        <v-btn text :to="{path: '/matches'}">My Matches</v-btn>
+        <v-btn text :to="{path: '/new_match'}">New Match</v-btn>
         <v-btn text @click="logout">Logout</v-btn>
 
       </v-container>
@@ -70,7 +70,7 @@
           </v-list-item>
 
           <!-- User matches item -->
-          <v-list-item link :to="{path: '/'}">
+          <v-list-item link :to="{path: '/matches'}">
             <v-list-item-icon>
               <v-icon>mdi-animation-outline</v-icon>
             </v-list-item-icon>
@@ -78,7 +78,7 @@
           </v-list-item>
 
           <!-- New match item -->
-          <v-list-item link :to="{path: '/match'}">
+          <v-list-item link :to="{path: '/new_match'}">
             <v-list-item-icon>
               <v-icon>mdi-plus-circle-outline</v-icon>
             </v-list-item-icon>
