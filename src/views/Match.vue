@@ -33,11 +33,6 @@
           </div>
 
           <v-btn class="overline" small block @click="newParticipant">Add participant</v-btn>
-          <v-btn class="overline" small block @click="sortParticipants">Sort participants</v-btn>
-
-          <p v-for="(p, name) in match.participants_sorted" :key="name">
-            {{p.name}} - {{p.secret}}
-          </p>
 
         </v-container>
       </v-card-text>
@@ -161,8 +156,6 @@ export default {
           this.match.participants_sorted.push(ps)
         }
       }
-
-      
     },
 
     // Save to database
