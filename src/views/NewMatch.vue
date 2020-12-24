@@ -1,20 +1,23 @@
 <template>
-  <div>
+  <div class="overline">
 
     <v-row v-if="successAlert" align="center" justify="center">
       <v-col>
-        <v-alert :value="successAlert" type="success">
+        <v-alert class="overline" :value="successAlert" type="success">
           Match saved.
         </v-alert>
         <br>
-        <v-btn color="secondary" block :to="{path: '/home'}">Go to home.</v-btn>
+        <v-btn class="overline" color="secondary" block :to="{path: '/home'}">Go to home.</v-btn>
       </v-col>
     </v-row>
 
     <v-card v-if="!successAlert">
       <v-card-title>
-        <span class="text-h5 overline">New match</span>
+        <v-icon x-large>mdi-plus-circle-outline</v-icon> <v-divider vertical class="mx-2"></v-divider><span class="text-h5">New match</span>
       </v-card-title>
+      <v-card-subtitle>
+
+      </v-card-subtitle>
       <br>
       <v-card-text>
         <v-form v-model="formValidation">
@@ -43,11 +46,11 @@
               <!-- used to define dynamic id to participant -->
               <span hidden>{{ p.id = index }}</span> 
                <v-spacer></v-spacer> 
-               <v-col>
+               <v-col cols="2">
                   <v-btn icon @click="match.participants.splice(index, 1)" ><v-icon>mdi-cancel</v-icon></v-btn>
                </v-col>
             </v-row>
-            <v-row >
+            <v-row>
               <v-col cols="6"><v-text-field v-model="p.name" label="Name" required :rules="[v => !!v || 'Must provide participant name']"></v-text-field></v-col>
               <v-col cols="6"><v-text-field v-model="p.email" label="E-mail" required :rules="[v => !!v || 'Must provide participant email', v => /.+@.+\..+/.test(v) || 'Must provide a valid e-mail.']"></v-text-field></v-col>
             </v-row>
@@ -73,7 +76,7 @@
 
     <!-- V-Dialog used to mimic JavaScript's confirm -->
     <v-dialog v-model="cancelDialog" persistent max-width="500">
-      <v-card>
+      <v-card class="overline">
         <v-card-title class="headline">Cancel changes</v-card-title>
         <v-card-text>
           Are you sure you want to cancel?
@@ -89,7 +92,7 @@
     </v-dialog>
 
     <v-dialog v-model="confirmDialog" persistent max-width="500">
-      <v-card>
+      <v-card class="overline">
         <v-card-title class="headline">Confirm match saving</v-card-title>
         <v-card-text>
           Are you sure you want to save this match?
@@ -244,6 +247,8 @@ export default {
     save () {
       let matchReference = this.match
       matchReference.organizer_uid = this.currentUser.uid
+
+      this.confirmDialog = false
 
       this.sortParticipants()
 

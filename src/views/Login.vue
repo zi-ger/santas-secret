@@ -1,16 +1,16 @@
 <template>
   <v-app id="inspire">
     <v-main>
-      <v-container class="fill-height" fluid>
+      <v-container class="fill-height overline" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="10" md="10" lg="7">
             <v-row align="center" justify="center">
               <img src="@/assets/logo.png" alt="Santa's Hat" width="225" height="225"/>
-              <span class="text-h5 overline">Santa's Secret</span>
+              <span class="text-h3 overline">Santa's Secret</span>
             </v-row>
 
             <v-row align="center" justify="center">
-              <span class="overline">Auto arranged Secret Santa matches.</span>
+              <span class="overline">Auto arranged Secret Santa matches</span>
             </v-row>
             
             <br>
@@ -127,7 +127,7 @@
 
       <!-- Password reset dialog-->
       <v-dialog v-model="passwordResetDialog" persistent max-width="500">
-        <v-card>
+        <v-card class="overline">
           <v-card-title class="headline">Password Recovery</v-card-title>
           <v-card-text>
             Insert your e-mail to recover or change your password.
@@ -135,7 +135,7 @@
               v-model="emailPasswordReset"
               label="E-mail"
               required
-              :rules="[v => !!v || 'E-mail is required']">
+              :rules="emailRules">
             </v-text-field>
           </v-card-text>
           <v-card-actions>

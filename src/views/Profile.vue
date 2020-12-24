@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="overline">
     <v-alert :value="successAlert" type="success">
       Profile updated.
     </v-alert>
 
     <v-card>
       <v-card-title>
-        <span class="text-h5 overline">Profile</span>
+        <v-icon x-large>mdi-account-cog-outline</v-icon> <v-divider vertical class="mx-2"></v-divider><span class="text-h5 overline">Profile</span>
       </v-card-title>
       <br>
       <v-card-text>
@@ -162,10 +162,12 @@ export default {
         .catch(function (error) {
           console.error('Error saving user profile: ', error)
         })
+      
       this.successAlert = true
       setTimeout(() => {
         this.successAlert = false
-      }, 5000)
+        this.$router.replace('home')
+      }, 3000)
     }
   },
   created () {

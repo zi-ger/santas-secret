@@ -9,6 +9,7 @@ import Profile from '@/views/Profile'
 
 import NewMatch from '@/views/NewMatch'
 import Matches from '@/views/Matches'
+import Match from '@/views/Match'
 
 Vue.use(VueRouter)
 
@@ -54,6 +55,14 @@ const routes = [
     path: '/matches',
     name: 'matches',
     component: Matches,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/match/:match_id',
+    name: 'match',
+    component: Match,
     meta: {
       requiresAuth: true
     }

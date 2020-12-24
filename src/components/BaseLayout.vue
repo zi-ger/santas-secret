@@ -4,61 +4,67 @@
     <!-- app bar - big screens -->
     <v-app-bar class="hidden-sm-and-down" app color="white" flat>
 
-      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+      <v-row align="center">
+        <v-col cols="2">
+          <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+        </v-col>
+        
+        <v-col cols="10">
+          <v-container fill-height fluid>
+            <v-layout row align-center>
+              <img alt="Santa's Hat" class="justify-center" width="40" height="40" src="@/assets/logo.png" />
+              <span class="text-h6 overline">Santa's Secret</span>
+            
+              <v-divider vertical class="mx-2"></v-divider>
 
-      <v-container class="py-0 fill-height">
-        <v-btn text :to="{path: '/'}">
-          <img alt="Santa's Hat" width="50" height="50" src="@/assets/logo.png" />
-          <span class="text-h6 overline">Santa's Secret</span>
-        </v-btn>  
-
-        <v-divider vertical class="mx-7"></v-divider>
-
-        <v-btn text :to="{path: '/profile'}">Profile</v-btn>
-        <v-btn text :to="{path: '/matches'}">My Matches</v-btn>
-        <v-btn text :to="{path: '/new_match'}">New Match</v-btn>
-        <v-btn text @click="logout">Logout</v-btn>
-
-      </v-container>
+              <v-btn text :to="{path: '/home'}">Home</v-btn>
+              <v-btn text :to="{path: '/profile'}">Profile</v-btn>
+              <v-btn text :to="{path: '/matches'}">My Matches</v-btn>
+              <v-btn text :to="{path: '/new_match'}">New Match</v-btn>
+              <v-btn text @click="logout">Logout</v-btn>
+            </v-layout>
+          </v-container>
+        </v-col>
+      </v-row>
     </v-app-bar>
 
     <!-- app bar - small screens -->
     <v-app-bar class="hidden-md-and-up" app color="white" flat>
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
         <v-spacer></v-spacer>
-        <v-btn text :to="{path: '/'}">
-          <v-toolbar-title class="text-h6 overline">Santa's Secret</v-toolbar-title>
-          <img alt="Santa's Hat" width="50" height="50" src="@/assets/logo.png" />
-        </v-btn>
+        <v-toolbar-title class="text-h6 overline">Santa's Secret</v-toolbar-title>
+        <img alt="Santa's Hat" width="50" height="50" src="@/assets/logo.png" />
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <v-list nav dense>
 
+        <br>
+
         <!-- Search form -->
-        <!-- <v-form>
-          <v-text-field
-            v-model="searchContent"
-            append-outer-icon="mdi-magnify"
-            filled
-            flat
-            rounded
-            label="Search match"
-            type="text"
-            @click:append-outer="search">
-          </v-text-field>
-        </v-form> -->
-
-        <v-divider class="my-3"></v-divider>
-
+        <v-text-field
+          v-model="searchContent"
+          class="overline"
+          append-outer-icon="mdi-magnify"
+          outlined
+          dense
+          rounded
+          clearable
+          label="Search match"
+          placeholder=" "
+          type="text"
+          @click:append-outer="search">
+        </v-text-field>
+      
+        <v-divider class="my-2"></v-divider>
 
         <v-list-item-group v-model="group">
-
+          
           <!-- Homepage item -->
-          <v-list-item link :to="{path: '/'}">
+          <v-list-item link :to="{path: '/home'}">
             <v-list-item-icon>
               <v-icon>mdi-home-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Homepage</v-list-item-title>
+            <v-list-item-title class="overline">Homepage</v-list-item-title>
           </v-list-item>
 
           <!-- Profile item -->
@@ -66,7 +72,7 @@
             <v-list-item-icon>
               <v-icon>mdi-account-cog-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Profile</v-list-item-title>
+            <v-list-item-title class="overline">Profile</v-list-item-title>
           </v-list-item>
 
           <!-- User matches item -->
@@ -74,7 +80,7 @@
             <v-list-item-icon>
               <v-icon>mdi-animation-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>My Matches</v-list-item-title>
+            <v-list-item-title class="overline">My Matches</v-list-item-title>
           </v-list-item>
 
           <!-- New match item -->
@@ -82,7 +88,7 @@
             <v-list-item-icon>
               <v-icon>mdi-plus-circle-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>New Match</v-list-item-title>
+            <v-list-item-title class="overline">New Match</v-list-item-title>
           </v-list-item>
 
           <v-divider class="my-5"></v-divider>
@@ -93,7 +99,7 @@
               <v-icon>mdi-logout</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title>Logout</v-list-item-title>
+              <v-list-item-title class="overline">Logout</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
 
@@ -138,7 +144,23 @@
           })
       },
       search: function () {
-        // TODO
+        let that = this
+
+        firebase
+          .firestore()
+          .collection('matches')
+          .doc(that.searchContent)
+          .get().then(function(doc) {
+              if (doc.exists) {
+                that.$router.push({ name: 'match', params: { match_id: that.searchContent } }).catch(function (c) {
+                  alert(c)
+                })
+              } else {
+                  alert("No match found.");
+              }
+          }).catch(function(error) {
+              console.log("Error retrieving match data:", error);
+          })
       }
     }
   }
