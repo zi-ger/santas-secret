@@ -33,7 +33,7 @@ export default {
   }),
 
   methods: {
-    // Used to get all matches linked to user.
+    // Get match using router param and organizer name
     async getData () {
       let that = this
       
@@ -60,7 +60,3 @@ export default {
   },
 }
 </script>
-
-<style>
-
-</style>

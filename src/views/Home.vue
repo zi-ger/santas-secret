@@ -22,7 +22,6 @@
           type="text"
           @click:append-outer="search">
         </v-text-field>
-        <!-- <v-btn :to="{path: '/home'}" class="my-1" block small>Search</v-btn> -->
       </v-card-text>
     </v-card>    
   </div>

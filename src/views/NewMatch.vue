@@ -52,7 +52,7 @@
             </v-row>
             <v-row>
               <v-col cols="6"><v-text-field v-model="p.name" label="Name" required :rules="[v => !!v || 'Must provide participant name']"></v-text-field></v-col>
-              <v-col cols="6"><v-text-field v-model="p.email" label="E-mail" required :rules="[v => !!v || 'Must provide participant email', v => /.+@.+\..+/.test(v) || 'Must provide a valid e-mail.']"></v-text-field></v-col>
+              <v-col cols="6"><v-text-field v-model="p.email" label="E-mail" required :rules="emailRules"></v-text-field></v-col>
             </v-row>
           </div>
 
@@ -136,6 +136,10 @@ export default {
         participants: [],
         participants_sorted: []
       },
+      emailRules: [
+        v => !!v || 'Must provide participant e-mail.',
+        v => /^[^\s].+@.+\..+[^\s]$/.test(v) || 'Must provide a valid e-mail.'
+      ]
     }
   },
   methods: {

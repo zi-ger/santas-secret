@@ -1,5 +1,8 @@
 <template>
   <v-app id="inspire">
+    <v-overlay :value="loader">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
     <v-main>
       <v-container class="fill-height overline" fluid>
         <v-row align="center" justify="center">
@@ -162,6 +165,8 @@ export default {
       loginFormValidation: true,
       registerFormValidation: true,
 
+      loader: false,
+
       register_name: '',
       register_last_name: '',
       register_email: '',
@@ -176,7 +181,7 @@ export default {
 
       emailRules: [
         v => !!v || 'E-mail must be provided.',
-        v => /.+@.+\..+/.test(v) || 'Must provide a valid e-mail.'
+        v => /^[^\s].+@.+\..+[^\s]$/.test(v) || 'Must provide a valid e-mail.'
       ],
       passwordRules: [
         v => !!v || 'Password must be provided.'
@@ -192,30 +197,38 @@ export default {
   },
   methods: {
     register() {
+      let that = this
+      that.loader = true
       this.$refs.registerForm.validate() &&
       firebase
         .auth()
-        .createUserWithEmailAndPassword(this.register_email, this.register_password)
+        .createUserWithEmailAndPassword(that.register_email, that.register_password)
         .then(data => {
           firebase.firestore().collection("users").doc(data.user.uid).set({
-            name: this.register_name,
-            last_name: this.register_last_name,
+            name: that.register_name,
+            last_name: that.register_last_name,
             birth: ''
           })
+          that.loader = false
           alert("Account created.")
-          this.$router.replace('home')
+          that.$router.replace('home')
         })
         .catch(error => {
+          that.loader = false
           alert(error.message)
         });
     },
     login () {
+      let that = this
+      that.loader = true
+      
       this.$refs.loginForm.validate() &&
       firebase
         .auth()
-        .signInWithEmailAndPassword(this.login_email, this.login_password)
+        .signInWithEmailAndPassword(that.login_email, that.login_password)
         .then(() => {
-          this.$router.replace('home')
+          that.loader = false
+          that.$router.replace('home')
         })
         .catch(function (error) {
           var errorCode = error.code
@@ -228,6 +241,7 @@ export default {
           } else {
             alert(errorCode + ' - ' + errorMessage)
           }
+          that.loader = false
         })
     },
     sendResetEmail (email) {
