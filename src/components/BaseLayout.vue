@@ -19,8 +19,8 @@
 
               <v-btn text :to="{path: '/home'}">Home</v-btn>
               <v-btn text :to="{path: '/profile'}">Profile</v-btn>
-              <v-btn text :to="{path: '/matches'}">My Matches</v-btn>
-              <v-btn text :to="{path: '/new_match'}">New Match</v-btn>
+              <v-btn text :to="{path: '/events'}">My Events</v-btn>
+              <v-btn text :to="{path: '/new_event'}">New Event</v-btn>
               <v-btn text @click="logout">Logout</v-btn>
             </v-layout>
           </v-container>
@@ -49,7 +49,7 @@
           dense
           rounded
           clearable
-          label="Search match"
+          label="Search event"
           placeholder=" "
           type="text"
           @click:append-outer="search">
@@ -75,20 +75,20 @@
             <v-list-item-title class="overline">Profile</v-list-item-title>
           </v-list-item>
 
-          <!-- User matches item -->
-          <v-list-item link :to="{path: '/matches'}">
+          <!-- User events item -->
+          <v-list-item link :to="{path: '/events'}">
             <v-list-item-icon>
               <v-icon>mdi-animation-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title class="overline">My Matches</v-list-item-title>
+            <v-list-item-title class="overline">My Events</v-list-item-title>
           </v-list-item>
 
-          <!-- New match item -->
-          <v-list-item link :to="{path: '/new_match'}">
+          <!-- New event item -->
+          <v-list-item link :to="{path: '/new_event'}">
             <v-list-item-icon>
               <v-icon>mdi-plus-circle-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title class="overline">New Match</v-list-item-title>
+            <v-list-item-title class="overline">New Event</v-list-item-title>
           </v-list-item>
 
           <v-divider class="my-5"></v-divider>
@@ -148,18 +148,18 @@
 
         firebase
           .firestore()
-          .collection('matches')
+          .collection('events')
           .doc(that.searchContent)
           .get().then(function(doc) {
               if (doc.exists) {
-                that.$router.push({ name: 'match', params: { match_id: that.searchContent } }).catch(function (c) {
+                that.$router.push({ name: 'event', params: { event_id: that.searchContent } }).catch(function (c) {
                   alert(c)
                 })
               } else {
-                  alert("No match found.");
+                  alert("No event found.");
               }
           }).catch(function(error) {
-              console.log("Error retrieving match data:", error);
+              console.log("Error retrieving event data:", error);
           })
       }
     }

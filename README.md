@@ -11,7 +11,7 @@ The project is focused in Secret Santa organization.
  - Dynamic number of participants.
  - Budget definition.
  - Auto sorting and preventing a participant from catching himself.
- - Automatic e-mail triggering when creating the match/bucket.
+ - Automatic e-mail triggering when creating the event/bucket.
   
 
 ## Project setup

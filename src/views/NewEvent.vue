@@ -4,16 +4,16 @@
     <v-row v-if="successAlert" align="center" justify="center">
       <v-col>
         <v-alert class="overline" :value="successAlert" type="success">
-          Match saved.
+          Event saved.
         </v-alert>
         <br>
-        <v-btn class="overline" color="secondary" block :to="{path: '/home'}">Go to home.</v-btn>
+        <v-btn class="overline" color="secondary" block :to="{path: '/home'}">Go to home</v-btn>
       </v-col>
     </v-row>
 
     <v-card v-if="!successAlert">
       <v-card-title>
-        <v-icon x-large>mdi-plus-circle-outline</v-icon> <v-divider vertical class="mx-2"></v-divider><span class="text-h5">New match</span>
+        <v-icon x-large>mdi-plus-circle-outline</v-icon> <v-divider vertical class="mx-2"></v-divider><span class="text-h5">New event</span>
       </v-card-title>
       <v-card-subtitle>
 
@@ -22,21 +22,21 @@
       <v-card-text>
         <v-form v-model="formValidation">
           <v-text-field
-            v-model="match.name"
+            v-model="event.name"
             label="Name"
             required
-            :rules="[v => !!v || 'Must provide match name.']">
+            :rules="[v => !!v || 'Must provide event name.']">
           </v-text-field>
 
           <v-text-field
-            v-model="match.budget"
+            v-model="event.budget"
             label="Budget"
             prefix="$"
             required
             :rules="[v => /^\d+$/.test(v) || 'Must provide a valid number.', v => !!v || 'Must provide budget.']">
           </v-text-field>
 
-          <div v-for="(p, index) in match.participants" :key="p.id">
+          <div v-for="(p, index) in event.participants" :key="p.id">
 
             <v-divider class="my-3"></v-divider>
             <v-row>
@@ -47,7 +47,7 @@
               <span hidden>{{ p.id = index }}</span> 
                <v-spacer></v-spacer> 
                <v-col cols="2">
-                  <v-btn icon @click="match.participants.splice(index, 1)" ><v-icon>mdi-cancel</v-icon></v-btn>
+                  <v-btn icon @click="event.participants.splice(index, 1)" ><v-icon>mdi-cancel</v-icon></v-btn>
                </v-col>
             </v-row>
             <v-row>
@@ -93,15 +93,15 @@
 
     <v-dialog v-model="confirmDialog" persistent max-width="500">
       <v-card class="overline">
-        <v-card-title class="headline">Confirm match saving</v-card-title>
+        <v-card-title class="headline">Confirm event saving</v-card-title>
         <v-card-text>
-          Are you sure you want to save this match?
+          Are you sure you want to save this event?
           <v-spacer><br></v-spacer>
           Be sure that you provided valid e-mails.
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="dark" link @click="save">Sure, save my match</v-btn>
+          <v-btn color="dark" link @click="save">Sure, save my event</v-btn>
           <v-btn color="dark" link @click="confirmDialog = false">Close</v-btn>
         </v-card-actions>
       </v-card>
@@ -129,7 +129,7 @@ export default {
         last_name: ''
       },
 
-      match: {
+      event: {
         name: '',
         budget: '',
         organizer_uid: '',
@@ -167,7 +167,7 @@ export default {
 
     // Add new participant 
     newParticipant () {
-      this.match.participants.push({
+      this.event.participants.push({
         id: '',
         name: '',
         email: ''
@@ -176,8 +176,8 @@ export default {
 
     // Sort participants
     sortParticipants () {
-      this.match.participants_sorted = []
-      let pReference = this.match.participants
+      this.event.participants_sorted = []
+      let pReference = this.event.participants
       let pSorted = pReference.slice(0)
 
       for (let i = pSorted.length - 1; i > 0; i--) {
@@ -199,9 +199,9 @@ export default {
 
       // Only push to sorted list if condition - based in the for loop above - equals true
       if (isSorted === true) {
-        this.match.participants_sorted = []
+        this.event.participants_sorted = []
         for (let i = 0; i < pReference.length; i++) {
-          this.match.participants_sorted.push({
+          this.event.participants_sorted.push({
             participant: {
               id: pReference[i].id,
               name: pReference[i].name,
@@ -224,10 +224,10 @@ export default {
 
     // Send e-mails to users
     sendMails () {
-      let matchReference = this.match
+      let eventReference = this.event
       let userReference = this.currentUser
 
-      matchReference.participants_sorted.forEach(element => {
+      eventReference.participants_sorted.forEach(element => {
 
         let email_data = {
           to_name: element.participant.name,
@@ -239,8 +239,8 @@ export default {
           organizer_name: userReference.name + ' ' + userReference.last_name,
           organizer_email: userReference.email,
 
-          match_name: matchReference.name,
-          budget: matchReference.budget,
+          event_name: eventReference.name,
+          budget: eventReference.budget,
         }
 
         emailjs.send("service_mail_ziger", "template_jluqp4k", email_data)
@@ -249,8 +249,8 @@ export default {
 
     // Save to database
     save () {
-      let matchReference = this.match
-      matchReference.organizer_uid = this.currentUser.uid
+      let eventReference = this.event
+      eventReference.organizer_uid = this.currentUser.uid
 
       this.confirmDialog = false
 
@@ -261,8 +261,8 @@ export default {
 
       firebase
         .firestore()
-        .collection('matches')
-        .add(matchReference)
+        .collection('events')
+        .add(eventReference)
         .then(function () {
           that.sendMails()
           that.successAlert = true
@@ -271,7 +271,7 @@ export default {
           }, 3000)
         })
         .catch(function (error) {
-          console.error('Error inserting item to database: ', error)
+          console.error('Error inserting event to database: ', error)
           this.dataDialog = true
         })
     }

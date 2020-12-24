@@ -13,7 +13,7 @@
             </v-row>
 
             <v-row align="center" justify="center">
-              <span class="overline">Auto arranged Secret Santa matches</span>
+              <span class="overline">Auto arranged Secret Santa events</span>
             </v-row>
             
             <br>

@@ -7,9 +7,9 @@ import Login from '@/views/Login'
 import Home from '@/views/Home'
 import Profile from '@/views/Profile'
 
-import NewMatch from '@/views/NewMatch'
-import Matches from '@/views/Matches'
-import Match from '@/views/Match'
+import NewEvent from '@/views/NewEvent'
+import Events from '@/views/Events'
+import Event from '@/views/Event'
 
 Vue.use(VueRouter)
 
@@ -44,25 +44,25 @@ const routes = [
     }
   },
   {
-    path: '/new_match',
-    name: 'new_match',
-    component: NewMatch,
+    path: '/new_event',
+    name: 'new_event',
+    component: NewEvent,
     meta: {
       requiresAuth: true
     }
   },
   {
-    path: '/matches',
-    name: 'matches',
-    component: Matches,
+    path: '/events',
+    name: 'events',
+    component: Events,
     meta: {
       requiresAuth: true
     }
   },
   {
-    path: '/match/:match_id',
-    name: 'match',
-    component: Match,
+    path: '/event/:event_id',
+    name: 'event',
+    component: Event,
     meta: {
       requiresAuth: true
     }
